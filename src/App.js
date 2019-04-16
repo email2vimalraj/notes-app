@@ -1,14 +1,19 @@
 import React from 'react'
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import { useTheme } from './ThemeContext'
+import NoteContainer from './NoteContainer'
 
 const GlobalStyle = createGlobalStyle`
+  html, body {
+    height: 100vh;
+  }
   body {
     background: ${props => props.theme.background};
     color: ${props => props.theme.body};
     width: 100vw;
-    height: 100vh;
+    margin: 0;
+    padding: 0;
     font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
@@ -22,15 +27,23 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+`
+
 function App() {
   const themeState = useTheme()
 
   return (
     <>
       <GlobalStyle />
-      <h1>Hello CodeSandbox</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <button onClick={themeState.toggle}>+</button>
+      <TitleContainer>
+        <h1>Markdown Notes</h1>
+        <button onClick={themeState.toggle}>+</button>
+      </TitleContainer>
+      <NoteContainer />
     </>
   )
 }
