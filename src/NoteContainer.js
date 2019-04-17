@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import ContentEditable from 'react-contenteditable'
 
 import remark from 'remark'
 import remark2react from 'remark-react'
@@ -40,14 +41,21 @@ const NoteBody = styled.div`
 `
 
 function convertToHtml(text) {
-  return remark()
+  const result = remark()
     .use(remark2react)
     .processSync(text).contents
+  console.log(result)
+  return result
 }
 
 function NoteContainer() {
   const [text, setText] = useState('')
   const [editable, setEditable] = useState(false)
+  const contentEditable = useRef()
+
+  // useEffect(() => {
+  //   convertToHtml(text)
+  // }, [text])
 
   const onFocus = () => {
     setEditable(true)
@@ -65,7 +73,7 @@ function NoteContainer() {
             <span>Apr 17, 2019 at 12:07 AM</span>
             <span>Icons</span>
           </NoteHeader>
-          <NoteBody
+          {/* <NoteBody
             onFocus={onFocus}
             onInput={e => onChange(e)}
             onBlur={e => {
@@ -76,7 +84,15 @@ function NoteContainer() {
             suppressContentEditableWarning
           >
             {editable ? text : convertToHtml(text)}
-          </NoteBody>
+          </NoteBody> */}
+
+          <ContentEditable
+            innerRef={contentEditable}
+            html={convertToHtml(text).toString()} // innerHTML of the editable div
+            disabled={false} // use true to disable editing
+            onChange={onChange} // handle innerHTML change
+            tagName="div"
+          />
         </Note>
       </Row>
     </AppContainer>
