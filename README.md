@@ -2,7 +2,7 @@
 
 Picked up an idea from [here](https://github.com/florinpop17/app-ideas).
 
-Demo: [Code Sandbox](https://codesandbox.io/s/8zlxkllq18?fontsize=14&hidenavigation=1&view=preview)
+Demo: [Code Sandbox](https://8zlxkllq18.codesandbox.io/)
 
 ## Description
 
