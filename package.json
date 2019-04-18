@@ -6,7 +6,6 @@
   "main": "src/index.js",
   "dependencies": {
     "react": "16.8.6",
-    "react-contenteditable": "3.2.6",
     "react-dom": "16.8.6",
     "react-scripts": "2.1.8",
     "remark": "10.0.1",

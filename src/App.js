@@ -1,49 +1,74 @@
-import React from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import React, { useState, useEffect } from 'react'
 
 import { useTheme } from './ThemeContext'
-import NoteContainer from './NoteContainer'
-
-const GlobalStyle = createGlobalStyle`
-  html, body {
-    height: 100vh;
-  }
-  body {
-    background: ${props => props.theme.background};
-    color: ${props => props.theme.body};
-    width: 100vw;
-    margin: 0;
-    padding: 0;
-    font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
-  button {
-    background: ${props => props.theme.background};
-    color: ${props => props.theme.body};
-    border: 1px solid ${props => !props.theme.background};
-    border-radius: 2px;
-    padding: 10px 25px;
-    font-size: 14px;
-  }
-`
-
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-`
+import NotesContainer from './NotesContainer'
+import { GlobalStyle, ButtonSpan } from './styles'
 
 function App() {
   const themeState = useTheme()
+  const initialState = JSON.parse(window.localStorage.getItem('notes')) || [
+    {
+      createdOn: new Date(),
+      edit: true
+    }
+  ]
+  const [notes, setNotes] = useState(initialState)
+
+  useEffect(() => {
+    window.localStorage.setItem('notes', JSON.stringify(notes))
+  }, [notes])
+
+  const addNote = () => {
+    const tempNotes = [...notes]
+    const result = { createdOn: new Date(), edit: true }
+    tempNotes.push(result)
+    setNotes(tempNotes)
+  }
+
+  const onDelete = idx => {
+    const tempNotes = [...notes]
+    tempNotes.splice(idx, 1)
+    setNotes(tempNotes)
+  }
+
+  const createNotesContainer = () => {
+    return notes.map((note, idx) => (
+      <NotesContainer
+        key={note.createdOn}
+        note={note}
+        idx={idx}
+        onDelete={() => onDelete(idx)}
+      />
+    ))
+  }
 
   return (
     <>
       <GlobalStyle />
-      <TitleContainer>
-        <h1>Markdown Notes</h1>
-        <button onClick={themeState.toggle}>+</button>
-      </TitleContainer>
-      <NoteContainer />
+      <div>
+        <h1>
+          React Markdown Note{' '}
+          {themeState.dark ? (
+            <ButtonSpan role="img" aria-label="sun" onClick={themeState.toggle}>
+              🌞
+            </ButtonSpan>
+          ) : (
+            <ButtonSpan
+              role="img"
+              aria-label="moon"
+              onClick={themeState.toggle}
+            >
+              🌙
+            </ButtonSpan>
+          )}
+        </h1>
+      </div>
+      <button onClick={() => addNote()} type="button">
+        Add New Note
+      </button>
+      <br />
+      <br />
+      {createNotesContainer()}
     </>
   )
 }

@@ -1,18 +1,24 @@
 const white = '#FFFFFF'
 const black = '#161617'
 const gray = '#F8F8F9'
-const lighterGray = '#777777'
-const darkerGray = '#333333'
 
 const themeLight = {
   background: gray,
-  secondaryBackground: lighterGray,
+  noteHeaderBackground: black,
+  noteHeaderColor: white,
+  noteBodyBackground: white,
+  noteBodyColor: black,
+  noteBorderColor: black,
   body: black
 }
 
 const themeDark = {
   background: black,
-  secondaryBackground: darkerGray,
+  noteHeaderBackground: white,
+  noteHeaderColor: black,
+  noteBodyBackground: black,
+  noteBodyColor: white,
+  noteBorderColor: white,
   body: white
 }
 
